@@ -2,6 +2,7 @@ import React from "react";
 import {GoogleApiWrapper} from "google-maps-react";
 import "./App.css";
 import Map from "./Map.js";
+import Markers from "./Markers.js";
 
 
 
@@ -16,7 +17,13 @@ import Map from "./Map.js";
         <Map
             google ={this.props.google}
             map={this.state}
-        />
+            >
+            {/* I will try another approach when marker and infowindow will be children and other components than map*/}
+          <Markers
+          addMarkers = {this.addMarkers}
+        
+          />
+      </Map>
       </div>
     )
 
