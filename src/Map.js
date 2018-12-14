@@ -26,9 +26,13 @@ class Map extends React.Component {
 
 
             let markers = [];
-            let infowindows = [];
+
             let contents = [];
             let bounds = new window.google.maps.LatLngBounds();
+            let infowindows = new google.maps.InfoWindow({
+                content: contents[i],
+                maxWidth: 300
+            });
 
 
             let  places =
@@ -56,23 +60,33 @@ class Map extends React.Component {
                  });
                 markers.push(marker);
                  marker.index = i; //add index property
+                 
                  // infowindow content = name of the place
                 contents[i] = (`<div>${marker.title}</div>`);
 
-
-                infowindows[i] = new google.maps.InfoWindow({
-                    content: contents[i],
-                    maxWidth: 300
-                });
-
                 google.maps.event.addListener(marker, 'click', function() {
+                  if(infowindows.marker === this.marker){
                     console.log(this.index); // this will give correct index
                     console.log(i); //this will always give 10 for you
-                    infowindows[this.index].open(map,markers[this.index]);
+                    infowindows.open(map, marker);
+                    infowindows.setContent(`<div>${marker.title}</div>`);
                     map.panTo(markers[this.index].getPosition());
-                });
+                } else {
+                  if (this.infowindows.marker === markers[i]){
+                    this.infowindows.close();
+                }
                }
+
+              })
+
+                bounds.extend(marker.position);
+               }
+               map.fitBounds(bounds);
              };
+
+
+
+
 
 
 
@@ -84,9 +98,9 @@ class Map extends React.Component {
                     id="map">
               </div>
 
-          )
+            )
+          }
         }
-      }
 
 
  export default  GoogleApiWrapper({apiKey:"AIzaSyAjfYACbqoCeUt-I01rTaQKGEgmMIYCtDs"})(Map) ;
