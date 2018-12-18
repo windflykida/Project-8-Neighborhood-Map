@@ -3,6 +3,7 @@ import React from "react";
 import "./App.css";
 import Modal from "react-modal";
 import Menu from "./img/menu-button.svg";
+import Header from "./Header.js";
 
 // https://www.npmjs.com/package/react-modal
 
@@ -10,33 +11,35 @@ import Menu from "./img/menu-button.svg";
 
 class Sidebar extends React.Component {
 
-   constructor(props){
-     super(props);
 
-       this.state = {
-         // sidebar will show after clicking the hamburger icon
-        showModal: true,
-       };
-     }
 
      render(){
 
-       return(
-         <div className =" sidebar-container">
-         <aside id = "sidebar-left">
-           <div className ="list">
+       let visibility = "hide";
 
-                <ul> Łódź     </ul>
-                <ul> Wrocław  </ul>
-                <ul> Wrocław  </ul>
-                <ul> Katowice </ul>
-                <ul> Kraków   </ul>
-                <ul> Warszawa </ul>
-                <ul> Ostrava  </ul>
-                <ul> Brno     </ul>
-                <ul> Poznań   </ul>
-                <ul> Tychy    </ul>
-          </div>
+        if(this.props.menuVisibility){
+          visibility = "show";
+        }
+
+       return (
+
+         <div className =" sidebar-container">
+
+
+         <aside id = "sidebar-left"
+           onMouseDown={this.props.handleMouseDown}
+           className={visibility}>
+
+                <ul><a href="#"> Łódź     </a></ul>
+                <ul><a href="#"> Wrocław  </a></ul>
+                <ul><a href="#"> Katowice </a></ul>
+                <ul><a href="#"> Kraków   </a></ul>
+                <ul><a href="#"> Warszawa </a></ul>
+                <ul><a href="#"> Ostrava  </a></ul>
+                <ul><a href="#"> Brno     </a></ul>
+                <ul><a href="#"> Poznań   </a></ul>
+              <ul><a href="#"> Tychy      </a></ul>
+
         </aside>
 
         <aside id = "sidebar-right">
