@@ -2,88 +2,114 @@
    margin:0;
  }
 
+/***************** MAP *****************/
   .map {
       position: absolute;
       top: 50%;
-            left: 50%;
-            margin-right: 0%;
-            margin-left: 0px;
-            transform: translate(-50%, -50%);
-      height: 83%;
-      width: 79%;
+      left: 50%;
+      margin-right: 0px;
+      margin-left: 0px;
+      transform: translate(-50%, -50%);
+      height: 100%;
+      width:100%;
       }
 
+/***************** HEADER *****************/
+
   .header {
-    font-size: 1em;
-    font-family: "Lucida Console", cursive;
-    position: absolute;
-  	top: 0;
-  	z-index: 1;
-  	background-color: #ff8080;
-  	width: 100%;
-  	color: #fff;
-  	display: flex;
-    padding-left: 10px;
+      height:50px;
+      font-size: 0.8em;
+      font-family: "Lucida Console", cursive;
+      position: absolute;
+    	top: 0;
+    	z-index: 1;
+    	background-color: #ff8080;
+    	width: 100vw;
+    	color: #fff;
+    	display: flex;
+    	flex-direction: row;
+    	justify-content: center;
+    	align-items: center;
+    	padding: 1em 0;
+      margin-right: 0;
+    }
 
-  }
-  img.header-menu{
-    padding-left:20px;
-    padding-right: 20px;
-    padding-bottom:20px;
-  }
+  img #header-menu {
+      height:50px;
+      margin-right: 1em;
+      padding: 1em;
+    	position: absolute;
+    	top: 0;
+    	right: 15px;
+      cursor: pointer;
+      }
 
+   /***************** SIDEBAR *****************/
 
-   .header-menu {
-  	height: 45px;
-  	padding: 1em;
-    cursor: pointer;
+   #sidebar-left {
+      height: 100%;
+      width: 180px;
+      position: fixed;
+      z-index: 1000;
+      top: 74px;
+      left: 0;
+      background-color: #111;
+      transition: transform .3s
+             cubic-bezier(0, .52, 0, 1);
+      overflow: scroll;
+      font-family: "Lucida Console", cursive;
+      padding: 5px 8px 6px 5px;
+      color:white;
+     }
 
-  }
-   #sidebar-left{
-    height: 100%;
-    width: 160px;
-    position: fixed;
-    z-index: 1;
-    top: 80px;
-    left: 0;
-    background-color: #111;
-    overflow-x: hidden;
-    padding-top: 20px;
-  }
+    #sidebar-left.hide {
+       transform: translate3d(-100vw, 0, 0);
+      }
 
-  #sidebar-right{
-   height: 100%;
-   width: 160px;
-   position: fixed;
-   z-index: 1;
-   top: 80px;
-   right: 0;
-   background-color: #111;
-   overflow-x: hidden;
-   padding-top: 20px;
- }
+    #sidebar-left.show {
+      transform: translate3d(0vw, 0, 0);
+      overflow: hidden;
+      }
+
+    #sidebar-left ul a{
+       color: white;
+       margin-left: 15px;
+       text-decoration: none;
+      }
+
+    #sidebar-right{
+       height: 100%;
+       width: 160px;
+       position: fixed;
+       z-index: 1;
+       top: 74px;
+       right: 0;
+       background-color: #111;
+       overflow-x: hidden;
+       padding-top: 20px;
+      }
+
   #sidebar a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+   }
 
   .list {
-    font-family: "Lucida Console", cursive;
-    padding: 5px 8px 6px 5px;
-    color:white;
+
   }
 
+/***************** FOOTER *****************/
   #footer {
     height:40px;
     position: absolute;
-    left:155px;
+    left:0px;
   	bottom: 0;
   	z-index: 1;
   	background-color:  #111;
-  	width: 79%;
+  	width: 100vw;
   	color: #fff;
   	display: flex;
   	flex-direction: row;
