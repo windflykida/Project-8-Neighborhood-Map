@@ -59,7 +59,7 @@ class Sidebar extends React.Component {
                       <ul value="Katowice"> Katowice </ul>
                       <ul value="Kraków"
 
-                        {/* try to find good functions to connect list with marker */}
+                        /* try to find good functions to connect list with marker */
                         onClick ={(event) => this.handleClick(event)}>Kraków    </ul>
                       <ul value="Warszawa">Warszawa  </ul>
                       <ul value="Ostrava"> Ostrava  </ul>
