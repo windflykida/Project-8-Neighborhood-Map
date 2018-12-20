@@ -54,8 +54,6 @@
       top: 74px;
       left: 0;
       background-color: #111;
-      transition: transform .3s
-             cubic-bezier(0, .52, 0, 1);
       overflow: scroll;
       font-family: "Lucida Console", cursive;
       padding: 5px 8px 6px 5px;
@@ -71,13 +69,13 @@
       overflow: hidden;
       }
 
-    #sidebar-left ul a{
+    #sidebar-left ul a {
        color: white;
        margin-left: 15px;
        text-decoration: none;
       }
 
-    #sidebar-right{
+    #sidebar-right {
        height: 100%;
        width: 160px;
        position: fixed;
@@ -103,9 +101,9 @@
 
 /***************** FOOTER *****************/
   #footer {
-    height:40px;
+    height: 40px;
     position: absolute;
-    left:0px;
+    left: 0px;
   	bottom: 0;
   	z-index: 1;
   	background-color:  #111;

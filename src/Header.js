@@ -8,11 +8,8 @@ class Header extends React.Component{
 
 
 
-render(
-
-){
-  return (
-
+render() {
+    return (
 
     <header className="header">
         <img id ="header-menu"
@@ -22,13 +19,14 @@ render(
              tabIndex="0"
              onMouseDown={this.props.handleMouseDown}
             />
+
         <h1 className="header-heading">
             Places worth visiting in Poland and Czech Republic
         </h1>
 
     </header>
   );
-}
+ }
 };
 
 export default Header;

@@ -9,3 +9,5 @@ https://www.fullstackreact.com/articles/how-to-write-a-google-maps-react-compone
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
 * the site will be working on `http://localhost:3000`
+
+https://www.w3schools.com/howto/howto_css_sidebar_responsive.asp
