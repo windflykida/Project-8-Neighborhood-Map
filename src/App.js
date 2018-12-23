@@ -22,9 +22,6 @@ import Footer from "./Footer.js";
 
        this.handleMouseDown = this.handleMouseDown.bind(this);
        this.toggleMenu = this.toggleMenu.bind(this);
-
-
-
      }
 
 // function open and close sidebar
@@ -43,45 +40,32 @@ import Footer from "./Footer.js";
            });
          }
 
-https://ourcodeworld.com/articles/read/327/how-to-execute-child-component-function-from-the-parent-component-in-react
+// https://ourcodeworld.com/articles/read/327/how-to-execute-child-component-function-from-the-parent-component-in-react
          hoops = () => {
            this.refs.child.handleClick();
          }
 
-
-
-
   render () {
-
-
 
     return (
           <div>
             <Map
                 google ={this.props.google}
-                handleClick ={this.handleClick}
-
-                />
-
+                handleClick ={this.handleClick}/>
 
             <Header
                 handleMouseDown={this.handleMouseDown}/>
 
             <Sidebar
-
                  handleMouseDown={this.handleMouseDown}
 
                  menuVisibility={this.state.visible}
                  hoops={this.hoops}>
+
                  <div>
                  <Map ref="child"/>
                  </div>
-
-
-
-
-
-                </Sidebar>
+            </Sidebar>
 
             <Footer/>
 
