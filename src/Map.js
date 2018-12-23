@@ -1,7 +1,7 @@
 import React from "react";
-import escapeRegExp from 'escape-string-regexp';
+import escapeRegExp from "escape-string-regexp";
 import {GoogleApiWrapper} from "google-maps-react";
-import Sidebar from "./Sidebar";
+
 
 
 class Map extends React.Component {
@@ -26,25 +26,29 @@ constructor(props){
             contents:[],
             markers:[],
             filteredMarkers:[],
-            map:"",
+
+
             query:"",
             infowindows: new this.props.google.maps.InfoWindow(),
         };
+
 
         }
 
 
    componentDidMount(){
      this.initMap();
+     let { markers} = this.state;
 
+     this.setState({ filteredMarkers: markers});
     }
 
 
           initMap = () => {
 
-            let {map, markers, contents, places} = this.state;
-            const {google} = this.props;
-            const maps = google.maps;
+            let {map, contents, places} = this.state;
+            let {google} = this.props;
+            let maps = google.maps;
 
             map = new maps.Map(document.getElementById("map"), {
                  center:{
@@ -53,6 +57,7 @@ constructor(props){
                  },
                  zoom: 7,
               });
+              this.setState({map:map});
 
             let bounds = new window.google.maps.LatLngBounds();
             let infowindows = new google.maps.InfoWindow();
@@ -60,6 +65,7 @@ constructor(props){
          // https://stackoverflow.com/questions/24884197/declaring-google-map-markers-in-a-loop
 
             for (var i = 0; i < places.length; i++){
+              let { markers} = this.state;
 
               let positionOfPlaces = places[i].location;
               let name = places[i].name;
@@ -67,14 +73,16 @@ constructor(props){
           // create marker for location and put it into markers array
 
               let marker = new google.maps.Marker({
+                 id: places[i].id,
                  map: map,
                  position: positionOfPlaces,
                  animation: google.maps.Animation.DROP,
                  visibile:true,
                  title: name,
+
                });
-                marker.setMap(map);
               markers.push(marker);
+
 
               marker.index = i; //add index property
 
@@ -110,12 +118,20 @@ constructor(props){
                 bounds.extend(marker.position);
                 map.fitBounds(bounds);
                }
+                this.setState({ map: map });
              }
 
 
 
+               
+
+
+
+
+
            render() {
-             const handleClick = this.handleClick;
+
+
 
              return (
                <main>
@@ -123,10 +139,6 @@ constructor(props){
                     id="map">
               </div>
 
-              <Sidebar
-              markers={this.markers}
-              handleClick={this.handleClick}
-              filterMarkers={this.filterMarkers}/>
 
               </main>
 

@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Map from "./Map.js";
+
 
 
 
@@ -10,31 +10,12 @@ import Map from "./Map.js";
 
 class Sidebar extends React.Component {
 
-  constructor(props){
-    super(props);
-
-    this.state ={
-      markers:[]
-    }
-  }
 
 
-  handleClick = (event) => {
-     const  {markers}  = this.state.makers;
-    event.preventDefault();
-
-            this.markers.map((marker) => {
-              if (marker.title === event.target.value) {
-
-                window.google.maps.event.trigger(marker, "click");
-              }
-            })
-          }
 
      render(){
 
-        const handleClick = this.handleClick;
-         let {showInfo} = this.props;
+
 
        let visibility = "hide";
 
@@ -43,6 +24,9 @@ class Sidebar extends React.Component {
         }
 
        return (
+          <div>
+
+
 
          <div className="sidebar-container"
               tabIndex="0"
@@ -51,30 +35,33 @@ class Sidebar extends React.Component {
 
                   className={visibility}
                   >
-                      {/* try to find good functions to connect list with marker */}
+                  <div>
 
-                      <ul value="Łódź"
-                        onClick={(event) => this.markers.indefOf()}> Łódź     </ul>
-                      <ul value="Wrocław"> Wrocław  </ul>
-                      <ul value="Katowice"> Katowice </ul>
-                      <ul value="Kraków"
 
-                        /* try to find good functions to connect list with marker */
-                        onClick ={(event) => this.handleClick(event)}>Kraków    </ul>
-                      <ul value="Warszawa">Warszawa  </ul>
-                      <ul value="Ostrava"> Ostrava  </ul>
-                      <ul value="Brno">Brno      </ul>
-                      <ul value="Poznań"> Poznań   </ul>
+                        <ul value="Łódź"
+                            onClick={(event) => this.props.hoops(event)}
+                           > Łódź     </ul>
+                        <ul value="Wrocław"> Wrocław  </ul>
+                        <ul value="Katowice"> Katowice </ul>
+                        <ul value="Kraków"> Kraków    </ul>
+                        <ul value="Warszawa">Warszawa  </ul>
+                        <ul value="Ostrava"> Ostrava  </ul>
+                        <ul value="Brno">Brno      </ul>
+                        <ul value="Poznań"> Poznań   </ul>
 
-                  {/* try to find good functions to connect list with marker */}
-                      <ul value="Tychy"
-                         onClick={(event) => this.props.showInfo(event)}> Tychy    </ul>
+                    {/* try to find good functions to connect list with marker */}
+                        <ul value="Tychy"> Tychy    </ul>
+
+
+
+                   </div>
           </aside>
 
         <aside id = "sidebar-right">
 
         </aside>
       </div>
+        </div>
        )
      }
    };

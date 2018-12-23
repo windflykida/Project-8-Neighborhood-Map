@@ -10,26 +10,26 @@ import Footer from "./Footer.js";
 
  class App extends React.Component {
 
-   constructor(props){
-     super(props);
+   constructor(props, context){
+     super(props, context);
 
        this.state = {
          // sidebar will show after clicking the hamburger icon
         visible: false,
-        places: "",
-
 
 
        };
 
        this.handleMouseDown = this.handleMouseDown.bind(this);
        this.toggleMenu = this.toggleMenu.bind(this);
-       this.showInfo = this.showInfo.bind(this);
+
+
+
      }
 
 // function open and close sidebar
 
-         handleMouseDown(event){
+         handleMouseDown=(event)=>{
            this.toggleMenu();
            console.log("clicked");
            event.stopPropagation();
@@ -43,55 +43,45 @@ import Footer from "./Footer.js";
            });
          }
 
-       showInfo = (venue) => {
-         let infowindows = new this.props.google.maps.InfoWindow();
-         let map = "";
-         let markers = [] ;
-         let {google} = this.props;
-
-         let marker = this.markers.filter(m => m.id === venue.id)[0]
-           infowindows.setContent(`<div>${marker.title}</div>`);
-           map.panTo(markers[this.index].getPosition());
-          this.infowindow.open(this.map, marker);
-          if (marker.getAnimation() !== null) {
-        marker.setAnimation(null);
-    } else { marker.setAnimation(this.google.maps.Animation.BOUNCE);
-      } setTimeout(() => { marker.setAnimation(null) }, 2000);
-
-  }
+https://ourcodeworld.com/articles/read/327/how-to-execute-child-component-function-from-the-parent-component-in-react
+         hoops = () => {
+           this.refs.child.handleClick();
+         }
 
 
 
 
+  render () {
 
 
 
-
-
-
-
-
-
-
-
-  render (
-
-  ) {
     return (
           <div>
             <Map
                 google ={this.props.google}
-                map={this.state}
-                handleClick={this.handleClick}/>
+                handleClick ={this.handleClick}
+
+                />
+
 
             <Header
                 handleMouseDown={this.handleMouseDown}/>
 
             <Sidebar
+
                  handleMouseDown={this.handleMouseDown}
+
                  menuVisibility={this.state.visible}
-                 placesToChoose={this.placesToChoose}
-                 showInfo={this.showInfo}/>
+                 hoops={this.hoops}>
+                 <div>
+                 <Map ref="child"/>
+                 </div>
+
+
+
+
+
+                </Sidebar>
 
             <Footer/>
 
