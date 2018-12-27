@@ -1,9 +1,7 @@
 import React from "react";
 
-
-const Footer = (() => {
-
-	return (
+// changed to stateless functional components
+const Footer = () => (
 
 		<footer id ="footer"
             tabIndex="1"
@@ -13,6 +11,5 @@ const Footer = (() => {
 
 		</footer>
 	);
-});
 
 export default Footer;
