@@ -1,6 +1,7 @@
 import React from "react";
 
 // changed to stateless functional components
+
 const Footer = () => (
 
 		<footer id ="footer"
