@@ -12,7 +12,7 @@
       transform: translate(-50%, -50%);
       height: 100%;
       width:100%;
-      }
+    }
 
 /***************** HEADER *****************/
 
@@ -32,17 +32,23 @@
     	align-items: center;
     	padding: 1em 0;
       margin-right: 0;
+      cursor: pointer;
     }
 
-  img #header-menu {
+    #header-menu {
       height:50px;
-      margin-right: 1em;
-      padding: 1em;
+      margin-left:30px;
+      padding: 0;
     	position: absolute;
-    	top: 0;
-    	right: 15px;
+    	top: 2;
+    	left:0;
       cursor: pointer;
-      }
+    }
+
+    .header-heading {
+      margin-left:85px;
+    }
+
 
    /***************** SIDEBAR *****************/
 
@@ -58,22 +64,23 @@
       font-family: "Lucida Console", cursive;
       padding: 5px 8px 6px 5px;
       color:white;
-     }
+    }
 
     #sidebar-left.hide {
-       transform: translate3d(-100vw, 0, 0);
-      }
+      transform: translate3d(-100vw, 0, 0);
+    }
 
     #sidebar-left.show {
       transform: translate3d(0vw, 0, 0);
       overflow: hidden;
-      }
+    }
 
-    #sidebar-left ul a {
+    #sidebar-left ul {
        color: white;
        margin-left: 15px;
        text-decoration: none;
-      }
+       cursor: pointer;
+    }
 
     #sidebar-right {
        height: 100%;
@@ -85,58 +92,179 @@
        background-color: #111;
        overflow-x: hidden;
        padding-top: 20px;
-      }
+     }
 
-  #sidebar a {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-   }
+     #sidebar-right.hide {
+       transform: translate3d(-100vw, 0, 0);
+     }
 
-  .list {
+     #sidebar-right.show {
+       transform: translate3d(0vw, 0, 0);
+       overflow: hidden;
+     }
 
-  }
+    #sidebar-right .marker-list {
+      height: 100%;
+      width: 140px;
+      position: fixed;
+      z-index: 1;
+      top: 74px;
+      right: 0;
+      background-color: #111;
+      overflow-x: hidden;
+      padding-top: 20px;
+    }
+
+
+    #sidebar-left input {
+      margin-left:10px;
+      margin-top:10px;
+    }
+
+    .input {
+      display: block;
+      width: 50%;
+      padding: 1em;
+
+      text-align: center;
+      font-size: 0.6em;
+    }
+
+    .view {
+
+    }
+
 
 /***************** FOOTER *****************/
-  #footer {
-    height: 40px;
-    position: absolute;
-    left: 0px;
-  	bottom: 0;
-  	z-index: 1;
-  	background-color:  #111;
-  	width: 100vw;
-  	color: #fff;
-  	display: flex;
-  	flex-direction: row;
-  	justify-content: center;
-  	align-items: center;
-  	padding: 1em 0;
+    #footer {
+      height: 30px;
+      position: absolute;
+      left: 0px;
+    	bottom: 0;
+    	z-index: 1;
+    	background-color:  #111;
+    	width: 100vw;
+    	color: #fff;
+    	display: flex;
+    	flex-direction: row;
+    	justify-content: center;
+    	align-items: center;
+    	padding: 1em 0;
+    }
+
+
+
+  /********************** RESPONSIVE **********************/
+
+/*** MOBILE ***/
+
+  @media screen and (max-width: 425px)  {
+
+    .header {
+      height:36px;
+      font-size: 0.5em;
+      text-align: center;
+    }
+
+    #header-menu {
+      height:35px;
+      margin-left:20px;
+      padding: 0;
+      position: absolute;
+      top: 2;
+      left:0;
+      cursor: pointer;
+    }
+
+    #sidebar-left {
+       height: 40%;
+       width: 150px;
+       position: fixed;
+       z-index: 1000;
+       top: 55px;
+       left: 0;
+       background-color: #111;
+       overflow: scroll;
+       font-family: "Lucida Console", cursive;
+       padding: 0px 8px 6px 5px;
+       color:white;
+    }
+
+    #sidebar-left ul {
+       color: white;
+       margin-left: 0px;
+    }
+
+    #sidebar-right {
+       width: 0px;
+    }
+
+    input {
+      display: block;
+      width: 70%;
+      padding: 0.4em;
+    }
+
+    #footer {
+      height: 10px;
+    }
+
   }
+  /*** TABLET ***/
 
+  @media screen and (min-width: 426px) and (max-width: 880px){
+    .header {
+      height:40px;
+      font-size: 0.7em;
+      text-align: center;
+    }
 
-  .text-input li {
-  text-decoration: none;
-  border-bottom: 2px solid black;
-  color: black;
-  line-height: 2cm;
-}
+    .header-heading {
+      margin-left:65px;
 
-.text-input ul {
-  list-style-type: none;
-  padding-left: 0;
-}
+    }
 
-.locations-list {
-	padding: 0 10px 10px 10px;
-	list-style: none;
-	background: #fff;
-	max-width: 250px;
-}
+    #header-menu {
+      height:40px;
+      margin-left:20px;
+      padding: 0;
+      position: absolute;
+      top: 2;
+      left:0;
+      cursor: pointer;
+    }
 
-.container {
-  display: flex;
-  flex-wrap: wrap;
-}
+    #sidebar-left {
+       height: 40%;
+       width: 150px;
+       position: fixed;
+       z-index: 1000;
+       top: 58px;
+       left: 0;
+       background-color: #111;
+       overflow: scroll;
+       font-family: "Lucida Console", cursive;
+       padding: 0px 8px 6px 5px;
+       color:white;
+    }
+
+    #sidebar-left ul {
+       color: white;
+       margin-left: 0px;
+    }
+
+    #sidebar-right {
+       width: 0px;
+    }
+
+    input {
+      display: block;
+      width: 70%;
+      padding: 0.4em;
+    }
+
+    #footer {
+      height: 10px;
+    }
+
+  }
