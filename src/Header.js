@@ -8,7 +8,6 @@ import "./App.css";
 const Header = props => (
 
 
-
     <header className="header">
         <img id ="header-menu"
              src={Menu}
@@ -18,7 +17,8 @@ const Header = props => (
              onMouseDown={props.handleMouseDown}
             />
 
-        <h1 className="header-heading">
+        <h1 className="header-heading"
+             tabIndex="0">
             Places worth visiting in Poland and Czech Republic
         </h1>
 
