@@ -1,6 +1,6 @@
 # Places worth visiting in Poland and Czech Republic - Neighborhood Map Project
 
-##Specification
+## Specification
 
 The Neighborhood Map Project has no starting code. The students have to build the app from scratch according to the project rubric.
 
