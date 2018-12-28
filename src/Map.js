@@ -1,13 +1,14 @@
 import React from "react";
 import escapeRegExp from "escape-string-regexp";
 import {GoogleApiWrapper} from "google-maps-react";
+import Sidebar from "./Sidebar";
 
 
 
 class Map extends React.Component {
 
-constructor(props){
-  super(props);
+  constructor(props){
+    super(props);
 
     this.state = {
       // locations for markers
@@ -25,126 +26,125 @@ constructor(props){
             ],
             contents:[],
             markers:[],
-            filteredMarkers:[],
-
-
             query:"",
-            infowindows: new this.props.google.maps.InfoWindow(),
-        };
-
-
-        }
+            map :"",
+         };
+      }
 
 
    componentDidMount(){
      this.initMap();
-     let { markers} = this.state;
-
-     this.setState({ filteredMarkers: markers});
+     let {markers} = this.state;
+     this.setState({ markers : markers });
+     //let { markers} = this.state;
     }
 
+    // Load Map with Markers and Infowindows
 
-          initMap = () => {
+      initMap = () => {
 
-            let {map, contents, places} = this.state;
-            let {google} = this.props;
-            let maps = google.maps;
+    let {map, contents, places, markers} = this.state;
+    let {google} = this.props;
+    let maps = google.maps;
 
-            map = new maps.Map(document.getElementById("map"), {
-                 center:{
-                  lat: 51.107883,
-                  lng: 17.038538
-                 },
-                 zoom: 7,
-              });
-              this.setState({map:map});
+    map = new maps.Map(document.getElementById("map"), {
+         center:{
+          lat: 51.107883,
+          lng: 17.038538
+         },
+         zoom: 7,
+      });
+      this.setState({map:map});
 
-            let bounds = new window.google.maps.LatLngBounds();
-            let infowindows = new google.maps.InfoWindow();
+    let bounds = new window.google.maps.LatLngBounds();
+    let infowindows = new google.maps.InfoWindow();
 
-         // https://stackoverflow.com/questions/24884197/declaring-google-map-markers-in-a-loop
+   // https://stackoverflow.com/questions/24884197/declaring-google-map-markers-in-a-loop
 
-            for (var i = 0; i < places.length; i++){
-              let { markers} = this.state;
+    for (var i = 0; i < places.length; i++){
+      let positionOfPlaces = places[i].location;
+      let name = places[i].name;
 
-              let positionOfPlaces = places[i].location;
-              let name = places[i].name;
+   // create marker for location and put it into markers array
 
-          // create marker for location and put it into markers array
+      let marker = new google.maps.Marker({
+         id: places[i].id,
+         map: map,
+         position: positionOfPlaces,
+         animation: google.maps.Animation.DROP,
+         visibile:true,
+         title: name,
+       });
 
-              let marker = new google.maps.Marker({
-                 id: places[i].id,
-                 map: map,
-                 position: positionOfPlaces,
-                 animation: google.maps.Animation.DROP,
-                 visibile:true,
-                 title: name,
+      markers.push(marker);
 
-               });
-              markers.push(marker);
+      marker.index = i; //add index property
 
+    // infowindow content = name of the city
 
-              marker.index = i; //add index property
+    contents[i] = (`<div>${marker.title}</div>`);
 
-             // infowindow content = name of the city
+    // loop to set marker infowindow, animation for markers.
 
-            contents[i] = (`<div>${marker.title}</div>`);
+    google.maps.event.addListener(marker, "click", function() {
 
-            // loop to set marker infowindow, animation for markers.
+    // set marker to bounce 2 times after click
 
-            google.maps.event.addListener(marker, "click", function() {
+      marker.setAnimation(google.maps.Animation.BOUNCE);
 
-            // set marker to bounce 2 times after click
+      setTimeout(function() {
+         marker.setAnimation(null);
+         }, 1000);
 
-              marker.setAnimation(google.maps.Animation.BOUNCE);
+        if (infowindows.marker === this.marker){
+            infowindows.open(map, marker);
+            infowindows.setContent(`<div>${marker.title}</div>`);
+            map.panTo(markers[this.index].getPosition());
 
-              setTimeout(function() {
-                 marker.setAnimation(null);
-                 }, 1000);
+    // after clicking on other marker infowindow will close
 
-                if (infowindows.marker === this.marker){
-                    infowindows.open(map, marker);
-                    infowindows.setContent(`<div>${marker.title}</div>`);
-                    map.panTo(markers[this.index].getPosition());
+          } else {
+              if (this.infowindows.marker === markers[i]){
+                  this.infowindows.close();
+              }
+            } 
+         });
 
-            // after clicking on other marker infowindow will close
-                  } else {
-                      if (this.infowindows.marker === markers[i]){
-                          this.infowindows.close();
-                      }
-                    }
-                 });
+        bounds.extend(marker.position);
+        map.fitBounds(bounds);
+       }
 
-                bounds.extend(marker.position);
-                map.fitBounds(bounds);
-               }
-                this.setState({ map: map });
-             }
-
-
-
-               
-
-
+        this.setState((state) => ({
+         markers: [...state.markers]
+        }))
+        this.setState({ map: map });
+        this.props.giveMarkersToParent(markers);
+     }
 
 
+   render() {
 
-           render() {
-
-
-
-             return (
-               <main>
-               <div className="map"
-                    id="map">
-              </div>
-
-
-              </main>
-
-            )
-          }
-        }
+     return (
+       <main>
+         <div className="map"
+              id="map"
+              tabIndex="0"
+              aria-label="map"
+              role="application">
+          /*  <Sidebar
+                handleClick={this.handleClick}
+                places = {this.places}
+                query={this.query}
+                onChange={this.updateQuery}
+                filtredMarkers={this.filtredMarkers}
+                markers={this.markers}
+                filterPlaces={this.filterPlaces}
+                filtredLocations={this.filtredLocations}/>*/
+       </div>
+    </main>
+    )
+   }
+  }
 
 
  export default  GoogleApiWrapper({apiKey:"AIzaSyAjfYACbqoCeUt-I01rTaQKGEgmMIYCtDs"})(Map) ;
