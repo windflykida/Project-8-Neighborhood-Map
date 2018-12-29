@@ -50,41 +50,62 @@
     }
 
 
-   /***************** SIDEBAR *****************/
+    /***************** SIDEBAR *****************/
 
-   #sidebar-left {
-      height: 100%;
-      width: 180px;
-      position: fixed;
-      z-index: 1000;
-      top: 74px;
-      left: 0;
-      background-color: #111;
-      overflow: scroll;
-      font-family: "Lucida Console", cursive;
-      padding: 5px 8px 6px 5px;
-      color:white;
-    }
-
-    #sidebar-left.hide {
-      transform: translate3d(-100vw, 0, 0);
-    }
-
-    #sidebar-left.show {
-      transform: translate3d(0vw, 0, 0);
-      overflow: hidden;
-    }
-
-    #sidebar-left ul {
-       color: white;
-       margin-left: 15px;
-       text-decoration: none;
-       cursor: pointer;
-    }
-
-    #sidebar-right {
+    #sidebar-left {
        height: 100%;
-       width: 160px;
+       width: 180px;
+       position: fixed;
+       z-index: 1000;
+       top: 74px;
+       left: 0;
+       background-color: #111;
+       overflow: scroll;
+       font-family: "Lucida Console", cursive;
+       padding: 5px 8px 6px 5px;
+       color:white;
+     }
+
+     #sidebar-left.hide {
+       transform: translate3d(-100vw, 0, 0);
+     }
+
+     #sidebar-left.show {
+       transform: translate3d(0vw, 0, 0);
+       overflow: hidden;
+     }
+
+     #sidebar-left ul {
+        color: white;
+        margin-left: 15px;
+        text-decoration: none;
+        cursor: pointer;
+     }
+
+     #sidebar-right {
+        height: 100%;
+        width: 160px;
+        position: fixed;
+        z-index: 1;
+        top: 74px;
+        right: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        padding-top: 20px;
+      }
+
+      #sidebar-right.hide {
+        transform: translate3d(-100vw, 0, 0);
+      }
+
+      #sidebar-right.show {
+        transform: translate3d(0vw, 0, 0);
+        overflow: hidden;
+      }
+
+     #sidebar-right .marker-list {
+       height: 100%;
+       width: 140px;
        position: fixed;
        z-index: 1;
        top: 74px;
@@ -94,45 +115,24 @@
        padding-top: 20px;
      }
 
-     #sidebar-right.hide {
-       transform: translate3d(-100vw, 0, 0);
+
+     #sidebar-left input {
+       margin-left:10px;
+       margin-top:10px;
      }
 
-     #sidebar-right.show {
-       transform: translate3d(0vw, 0, 0);
-       overflow: hidden;
+     .input {
+       display: block;
+       width: 50%;
+       padding: 1em;
+
+       text-align: center;
+       font-size: 0.6em;
      }
 
-    #sidebar-right .marker-list {
-      height: 100%;
-      width: 140px;
-      position: fixed;
-      z-index: 1;
-      top: 74px;
-      right: 0;
-      background-color: #111;
-      overflow-x: hidden;
-      padding-top: 20px;
-    }
+     .view {
 
-
-    #sidebar-left input {
-      margin-left:10px;
-      margin-top:10px;
-    }
-
-    .input {
-      display: block;
-      width: 50%;
-      padding: 1em;
-
-      text-align: center;
-      font-size: 0.6em;
-    }
-
-    .view {
-
-    }
+     }
 
 
 /***************** FOOTER *****************/

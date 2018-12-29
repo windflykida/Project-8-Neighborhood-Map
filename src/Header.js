@@ -13,8 +13,9 @@ const Header = props => (
              src={Menu}
              alt="Cities"
              tabIndex="0"
-             aria-label="Interesting places in Poland and Czech Republic"
+             aria-label="Click to open list of places"
              onMouseDown={props.handleMouseDown}
+             onKeyPress={props.handleMouseDown}
             />
 
         <h1 className="header-heading">
@@ -27,4 +28,3 @@ const Header = props => (
 
 
 export default Header;
-  // this.loadJS("https://maps.googleapis.com/maps/api/js?key=AIzaSyAjfYACbqoCeUt-I01rTaQKGEgmMIYCtDs&callback=initMap")
