@@ -1,5 +1,4 @@
 import React from "react";
-import {GoogleApiWrapper} from "google-maps-react";
 import "./App.css";
 import Map from "./Map";
 import Header from "./Header";

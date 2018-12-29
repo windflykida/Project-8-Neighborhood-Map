@@ -5,10 +5,10 @@ import React from "react";
 const Footer = () => (
 
 		<footer id ="footer"
-            tabIndex="1"
+            tabIndex="0"
             aria-label="footer">
 
-			<p> Created by Anna Jachym </p>
+			<p tabIndex="0"> Created by Anna Jachym </p>
 
 		</footer>
 	);

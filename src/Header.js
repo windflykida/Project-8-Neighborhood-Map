@@ -10,15 +10,16 @@ const Header = props => (
 
     <header className="header">
         <img id ="header-menu"
+            tabIndex="0"
              src={Menu}
              alt="Cities"
-             tabIndex="0"
              aria-label="Click to open list of places"
              onMouseDown={props.handleMouseDown}
              onKeyPress={props.handleMouseDown}
             />
 
-        <h1 className="header-heading">
+        <h1 className="header-heading"
+            tabIndex="0">
             Places worth visiting in Poland and Czech Republic
         </h1>
 
