@@ -27,6 +27,10 @@ $ serve -s build
 
 * Open project on local server localhost:5000
 
+## Dependencies
+1.React https://reactjs.org/
+2.Google Maps API https://cloud.google.com/maps-platform/
+2.Flickr API https://www.flickr.com/services/api/
 
 
 ## Resources

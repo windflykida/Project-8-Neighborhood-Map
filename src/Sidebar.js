@@ -2,8 +2,6 @@ import React from "react";
 import "./App.css";
 
 
-
-
 // https://www.kirupa.com/react/smooth_sliding_menu_react_motion.htm
 
 
@@ -33,33 +31,35 @@ class Sidebar extends React.Component {
                    onChange={query => this.props.filterPlaces(query.target.value)}
                     />
 
-               <div>{
+               <div> {
                this.props.filteredPlaces.map((place)=>(
+
                     <ul key={place.id}
                         onClick={(event) => this.props.handleClick(event, place.name)}>
-                        {place.name}
+                        {place.name}{this.props.infowindowOpenId}
                     </ul>
                  ))}
 
                  {this.props.filteredPlaces.length === 0 && (
 
-                   <ul>No luck :(
-
-                   </ul>)}
+                   <ul>No luck :(</ul>)}
               </div>
            </aside>
 
            <aside id = "sidebar-right"
                   className={visibility}
             >
+              <div className="gallery">
+                  {this.props.pictures}
+              </div>
           }
 
         </aside>
       </div>
     </div>
-       )
-     }
-   };
+  )
+ }
+};
 
 
 

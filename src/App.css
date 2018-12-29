@@ -82,6 +82,19 @@
         cursor: pointer;
      }
 
+     #sidebar-left input {
+       margin-left:10px;
+       margin-top:10px;
+     }
+
+     .input {
+       display: block;
+       width: 50%;
+       padding: 1em;
+       text-align: center;
+       font-size: 0.6em;
+     }
+
      #sidebar-right {
         height: 100%;
         width: 160px;
@@ -116,24 +129,25 @@
      }
 
 
-     #sidebar-left input {
-       margin-left:10px;
-       margin-top:10px;
+     .gallery {
+     	flex-direction: column;
+     	justify-content: center;
+     	margin-left:20px;
+      margin-top:10px;
      }
 
-     .input {
-       display: block;
-       width: 50%;
-       padding: 1em;
-
-       text-align: center;
-       font-size: 0.6em;
+     .image-container {
+     	width: 120px;
+     	height: 100px;
+     	position: relative;
+     	overflow: hidden;
      }
 
-     .view {
-
-     }
-
+    .gallery-image {
+    	height: 100px;
+    	width: 120px;
+      margin:2px;
+    }
 
 /***************** FOOTER *****************/
     #footer {
@@ -181,7 +195,7 @@
        width: 150px;
        position: fixed;
        z-index: 1000;
-       top: 55px;
+       top: 50px;
        left: 0;
        background-color: #111;
        overflow: scroll;
@@ -239,7 +253,7 @@
        width: 150px;
        position: fixed;
        z-index: 1000;
-       top: 58px;
+       top: 62px;
        left: 0;
        background-color: #111;
        overflow: scroll;
@@ -254,7 +268,8 @@
     }
 
     #sidebar-right {
-       width: 0px;
+       width: 160px;
+       top: 62px;
     }
 
     input {

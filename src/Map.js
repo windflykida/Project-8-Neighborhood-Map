@@ -13,35 +13,65 @@ class Map extends React.Component {
       // locations for markers
       places:
              [
-              {name: "Łódź",        location:{lat:51.759445,  lng:19.457216} ,id:"1"},
-              {name: "Wrocław",     location:{lat:51.107883,	lng:17.038538} ,id:"2"},
-              {name: "Katowice",    location:{lat:50.270908,  lng:19.039993} ,id:"3"},
-              {name: "Kraków",      location:{lat:50.049683,  lng:19.944544} ,id:"4"},
-              {name: "Warszawa",    location:{lat:52.237049,  lng:21.017532} ,id:"5"},
-              {name: "Ostrava",     location:{lat:49.820923,	lng:18.262524} ,id:"6"},
-              {name: "Brno",        location:{lat:49.195061,  lng:16.606836} ,id:"7"},
-              {name: "Poznań",      location:{lat:52.409538,	lng:16.931992} ,id:"8"},
-              {name: "Tychy",       location:{lat:50.124981,  lng:19.009438} ,id:"9"}
+              {name: "Łódź",        location:{lat:51.759445,  lng:19.457216} ,id:"0"},
+              {name: "Wrocław",     location:{lat:51.107883,	lng:17.038538} ,id:"1"},
+              {name: "Katowice",    location:{lat:50.270908,  lng:19.039993} ,id:"2"},
+              {name: "Kraków",      location:{lat:50.049683,  lng:19.944544} ,id:"3"},
+              {name: "Warszawa",    location:{lat:52.237049,  lng:21.017532} ,id:"4"},
+              {name: "Ostrava",     location:{lat:49.820923,	lng:18.262524} ,id:"5"},
+              {name: "Brno",        location:{lat:49.195061,  lng:16.606836} ,id:"6"},
+              {name: "Poznań",      location:{lat:52.409538,	lng:16.931992} ,id:"7"},
+              {name: "Tychy",       location:{lat:50.124981,  lng:19.009438} ,id:"8"}
             ],
-            contents:[],
+            //contents:[],
             markers:[],
             //query:"",
             //map :"",
             allMarkers:[],
             search: "",
             infowindows:new this.props.google.maps.InfoWindow(),
-            filteredPlaces:[{name: "",
-                             location:{lat:51.759445,  lng:19.457216},
-                             id:""}],
+            filteredPlaces:[],
             markerVisible:[],
+            pictures:[],
+            error: false,
          };
 
          //this.filterPlaces = this.filterPlaces.bind(this);
          this.handleClick = this.handleClick.bind(this);
       }
-
+// https://stackoverflow.com/questions/48699820/how-do-i-hide-api-key-in-create-react-app
+// https://www.youtube.com/watch?v=RkXotG7YUek
 
    componentDidMount(){
+     let tags = "Warsaw"
+
+     fetch("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key="+process.env.REACT_APP_API_KEY+"&tags="+tags+"&per_page=7&page=1&format=json&nojsoncallback=1")
+     .then(function(response){
+     return response.json();
+   })
+   .then(function(j){
+
+     let picArray = j.photos.photo.map((pic) => {
+
+       var srcPath = 'https://farm'+pic.farm+'.staticflickr.com/'+pic.server+'/'+pic.id+'_'+pic.secret+'.jpg';
+       return(
+         <div className="image-container"
+              key={pic.id}>
+              <img className="gallery-image"
+                   alt="city"
+                   src={srcPath}
+                   tabIndex="0"
+                   aria-label={tags}>
+              </img>
+         </div>
+       )
+     })
+     this.setState({pictures: picArray});
+
+   }.bind(this)).catch((error) => {
+     this.setState({ error: true})
+   })
+
 
 //     this.props.givePlace(this.state.places);
      this.initMap();
@@ -53,9 +83,11 @@ class Map extends React.Component {
      window.gm_authFailure = () => {
 			alert("Ups error.. there is problem with loading map. Please check your API key.")
 		}
-     //let { markers} = this.state;
-    }
 
+
+
+  };
+     //let { markers} = this.state;
 
 
 
@@ -74,6 +106,8 @@ class Map extends React.Component {
       })
      }
 
+     // method to filter and display places
+
      filterPlaces = (query) => {
       const {markers, places} = this.state
       let {infowindows} = this.state;
@@ -88,7 +122,7 @@ class Map extends React.Component {
                 }
                 else {
                   if (infowindows.marker === markers[i]) {
-                      infowindows.close()
+                    infowindows.close()
                   }
                   markers[i].setVisible(false)
                 }
@@ -101,15 +135,15 @@ class Map extends React.Component {
               }
             }
 
-
         this.setState({infowindows: infowindows})
         return this.setState({filteredPlaces: filteredPlaces, infowindows: infowindows})
       }
 
+      // method to load map
 
     initMap = () => {
 
-      let {map, contents, places, markers} = this.state;
+      let {map, places, markers} = this.state;
       let {google} = this.props;
       let maps = google.maps;
       let filteredPlaces = [];
@@ -127,6 +161,7 @@ class Map extends React.Component {
 
       let bounds = new window.google.maps.LatLngBounds();
       let {infowindows} = this.state;
+    //  let infowindowOpenId = "";
 
      // https://stackoverflow.com/questions/24884197/declaring-google-map-markers-in-a-loop
 
@@ -152,7 +187,7 @@ class Map extends React.Component {
 
       // infowindow content = name of the city
 
-      contents[i] = (`<div>${marker.title}</div>`);
+      //contents[i] = (`<div>${marker.title}</div>`);
 
       // loop to set marker infowindow, animation for markers.
 
@@ -170,6 +205,7 @@ class Map extends React.Component {
               infowindows.open(map, marker);
               infowindows.setContent(`<div>${marker.title}</div>`);
               map.panTo(markers[this.index].getPosition());
+              //infowindowOpenId = this.state.places[i].id;
 
       // after clicking on other marker infowindow will close
 
@@ -185,25 +221,26 @@ class Map extends React.Component {
          }
 
           this.setState({markers: markers});
-          this.setState({allMarkers: markers});
           this.setState({infowindows: infowindows})
 
           //this.setState({ map: map });
           //this.props.giveMarkersToParent(markers);
        }
 
+// https://www.klaasnotfound.com/2016/11/06/making-google-maps-work-with-react/
 
-     loadJS = (src) => {
-		// https://www.klaasnotfound.com/2016/11/06/making-google-maps-work-with-react/
-		const ref = window.document.getElementsByTagName("script")[0];
-		const script = window.document.createElement("script");
-		script.src = src;
-		script.async = true;
-		script.defer = true;
-		ref.parentNode.insertBefore(script, ref);
-		script.onerror = this.setState({ mapError: true });
+   loadJS = (src) => {
+  		const ref = window.document.getElementsByTagName("script")[0];
+  		const script = window.document.createElement("script");
+  		script.src = src;
+  		script.async = true;
+  		script.defer = true;
+  		ref.parentNode.insertBefore(script, ref);
+  		script.onerror = this.setState({ mapError: true });
+   };
 
-	}
+
+
 
 
    render() {
@@ -229,7 +266,8 @@ class Map extends React.Component {
              filterMarkers = {this.state.filterMarkers}
              query={this.state.query}
              markers = {this.state.markres}
-             places = {this.state.places}/>
+             places = {this.state.places}
+             pictures={this.state.pictures}/>
              </div>
         </main>
         )
