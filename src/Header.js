@@ -12,13 +12,12 @@ const Header = props => (
         <img id ="header-menu"
              src={Menu}
              alt="Cities"
-             aria-label="Interesting places in Poland and Czech Republic"
              tabIndex="0"
+             aria-label="Interesting places in Poland and Czech Republic"
              onMouseDown={props.handleMouseDown}
             />
 
-        <h1 className="header-heading"
-             tabIndex="0">
+        <h1 className="header-heading">
             Places worth visiting in Poland and Czech Republic
         </h1>
 
@@ -28,3 +27,4 @@ const Header = props => (
 
 
 export default Header;
+  // this.loadJS("https://maps.googleapis.com/maps/api/js?key=AIzaSyAjfYACbqoCeUt-I01rTaQKGEgmMIYCtDs&callback=initMap")

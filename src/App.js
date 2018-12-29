@@ -18,8 +18,17 @@ import escapeRegExp from "escape-string-regexp";
      // sidebar will show after clicking the hamburger icon
     visible: false,
     allMarkersFromChild: null,
+    places:[],
     markers: [],
     query: "",
+    filterMarkers: [{
+      id: 0,
+      map: {},
+      position: {},
+      animation: null,
+      visibile: false,
+      title: null,
+    }],
    }
 
    this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -33,6 +42,11 @@ import escapeRegExp from "escape-string-regexp";
  giveMeMarkersMyChild = (markersFromChild) => {
   console.log("markers")
   this.setState({ allMarkersFromChild: markersFromChild});
+ }
+
+ givePlace = (mapPlaces) => {
+   console.log("places")
+   this.setState({places : mapPlaces});
  }
 
  // function open and close sidebar
@@ -61,6 +75,9 @@ import escapeRegExp from "escape-string-regexp";
     if (marker.title === city) {
        this.toggleMenu();
        window.google.maps.event.trigger(marker, "click");
+       console.log("Everything is ok with loop")
+    } else {
+      console.log("something wrong with looping markers")
     }
   })
  }
@@ -74,31 +91,62 @@ import escapeRegExp from "escape-string-regexp";
    this.setState({ markers :markers})
  }
 
+ filtredPlaces = (query) => {
+
+   let { places, map, markers} = this.state;
+
+   let filtredMarkers;
+
+   this.state.allMarkersFromChild.map((marker) => {
+     console.log("mapping")
+     return marker;
+     console.log("return marker from App")
+   })
+   if (query){
+     this.setState({query : query});
+     const match = new RegExp(escapeRegExp(query), "i")
+
+     filtredMarkers = this.state.places.filter((marker) => match.test(marker.title));
+
+     filtredMarkers.map((fM) =>{
+       return fM.setMap(null)
+     })
+     console.log("Jest query")
+     return this.setState({filterMarkers: filtredMarkers})
+
+   } else {
+     this.setState({query:'', filterMarkers: markers});
+
+     this.state.allMarkersFromChild.map((marker) => {
+       console.log("mapping2")
+       return marker;
+
+   })
+ }
+}
+
+
 
   render () {
+
     let {query} = this.state;
      //let {allMarkersFromChild, query} = this.state;
      let markers = []
      let venues = this.props;
      let showingMarkers;
 
-        if (query) {
-          console.log("query")
-          const match = new RegExp(escapeRegExp(query), "i")
-          showingMarkers = markers.filter((marker) => match.test(marker.title))
-        } else {
-          showingMarkers = markers;
-        }
 
 
     return (
       <div>
+
         <Map
             google ={this.props.google}
             handleClick ={this.handleClick}
             filterPlaces={this.filterPlaces}
-            giveMarkersToParent ={this.giveMeMarkersMyChild.bind(this)}/>
-
+            giveMarkersToParent ={this.giveMeMarkersMyChild.bind(this)}
+            givePlace = {this.givePlace}
+            filterMakers = {this.state.filterMarkers}/>
         <Header
             handleMouseDown={this.handleMouseDown}/>
 
@@ -106,11 +154,11 @@ import escapeRegExp from "escape-string-regexp";
              handleMouseDown={this.handleMouseDown}
              menuVisibility={this.state.visible}
              handleClick ={this.handleClick}
-             filterPlaces={this.filterPlaces}
+             filtredPlaces={this.filtredPlaces}
              updateQuery={this.updateQuery}
              giveMarkersToParent ={this.giveMeMarkersMyChild}
-             allMarkersFromChild={this.state.allMarkersFromChild}/>
-
+             allMarkersFromChild={this.state.allMarkersFromChild}
+             filterMakers = {this.state.filterMarkers}/>
         <Footer/>
 
       </div>

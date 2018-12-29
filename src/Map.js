@@ -33,9 +33,17 @@ class Map extends React.Component {
 
 
    componentDidMount(){
+
+     this.props.givePlace(this.state.places);
      this.initMap();
      let {markers} = this.state;
      this.setState({ markers : markers });
+
+
+
+     window.gm_authFailure = () => {
+			alert("Ups error.. there is problem with loading map. Please check your API key.")
+		}
      //let { markers} = this.state;
     }
 
@@ -54,7 +62,7 @@ class Map extends React.Component {
          },
          zoom: 7,
       });
-      this.setState({map:map});
+      //this.setState({map:map});
 
     let bounds = new window.google.maps.LatLngBounds();
     let infowindows = new google.maps.InfoWindow();
@@ -107,19 +115,31 @@ class Map extends React.Component {
               if (this.infowindows.marker === markers[i]){
                   this.infowindows.close();
               }
-            } 
+            }
          });
 
         bounds.extend(marker.position);
         map.fitBounds(bounds);
        }
 
-        this.setState((state) => ({
-         markers: [...state.markers]
-        }))
+        this.setState({markers: markers});
+
         this.setState({ map: map });
         this.props.giveMarkersToParent(markers);
      }
+
+
+     loadJS = (src) => {
+		// https://www.klaasnotfound.com/2016/11/06/making-google-maps-work-with-react/
+		const ref = window.document.getElementsByTagName("script")[0];
+		const script = window.document.createElement("script");
+		script.src = src;
+		script.async = true;
+		script.defer = true;
+		ref.parentNode.insertBefore(script, ref);
+		script.onerror = this.setState({ mapError: true });
+
+	}
 
 
    render() {
@@ -141,6 +161,7 @@ class Map extends React.Component {
                 filterPlaces={this.filterPlaces}
                 filtredLocations={this.filtredLocations}/>*/
        </div>
+
     </main>
     )
    }
