@@ -6,15 +6,28 @@ The Neighborhood Map Project has no starting code. The students have to build th
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+The application can be run offline using the service worker that is provided via create-react-app. It will work only on production build (production mode);
 
 
 ## How to run the app
 
 1. Clone or download the repo from https://github.com/windflykida/Project-8-Neighborhood-Map.git
 
-* install all project dependencies with `npm install`
-* start the development server with `npm start`
-* the site will be working on `http://localhost:3000`
+2. install all project dependencies with `npm install`
+3. start the development server with `npm start`
+4. the site will be working on `http://localhost:3000`
+5. the Service Worker runs only on production mode. To test it you need to:
+* Make sure you have installed Node.
+* Create build folder.
+$ npm run build
+* Install Serve.
+$ npm install -g serve
+* Serve your static site on the port 5000.
+$ serve -s build
+
+* Open project on local server localhost:5000
+
+
 
 ## Resources
 1. The Map fetched from Google Maps using Google Maps API
