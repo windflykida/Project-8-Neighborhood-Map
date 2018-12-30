@@ -3,6 +3,10 @@ import {GoogleApiWrapper} from "google-maps-react";
 import "./App.css";
 import Sidebar from "./Sidebar";
 
+// https://stackoverflow.com/questions/48699820/how-do-i-hide-api-key-in-create-react-app
+// https://www.youtube.com/watch?v=RkXotG7YUek
+// https://stackoverflow.com/questions/24884197/declaring-google-map-markers-in-a-loop
+// https://www.klaasnotfound.com/2016/11/06/making-google-maps-work-with-react/
 
 class Map extends React.Component {
 
@@ -23,74 +27,65 @@ class Map extends React.Component {
               {name: "Poznań",      location:{lat:52.409538,	lng:16.931992} ,id:"7"},
               {name: "Tychy",       location:{lat:50.124981,  lng:19.009438} ,id:"8"}
             ],
-            //contents:[],
-            markers:[],
-            //query:"",
-            //map :"",
-            allMarkers:[],
-            search: "",
-            infowindows:new this.props.google.maps.InfoWindow(),
-            filteredPlaces:[],
-            markerVisible:[],
-            pictures:[],
-            error: false,
-         };
+
+        markers:[],
+        allMarkers:[],
+        search: "",
+        infowindows:new this.props.google.maps.InfoWindow(),
+        filteredPlaces:[],
+        markerVisible:[],
+        pictures:[""],
+        pictures_tmp:[],
+        error: false,
+        map:{}
+      };
 
          //this.filterPlaces = this.filterPlaces.bind(this);
          this.handleClick = this.handleClick.bind(this);
       }
-// https://stackoverflow.com/questions/48699820/how-do-i-hide-api-key-in-create-react-app
-// https://www.youtube.com/watch?v=RkXotG7YUek
 
    componentDidMount(){
-     let tags = "Warsaw"
 
-     fetch("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key="+process.env.REACT_APP_API_KEY+"&tags="+tags+"&per_page=7&page=1&format=json&nojsoncallback=1")
-     .then(function(response){
-     return response.json();
-   })
-   .then(function(j){
-
-     let picArray = j.photos.photo.map((pic) => {
-
-       var srcPath = 'https://farm'+pic.farm+'.staticflickr.com/'+pic.server+'/'+pic.id+'_'+pic.secret+'.jpg';
-       return(
-         <div className="image-container"
-              key={pic.id}>
-              <img className="gallery-image"
-                   alt="city"
-                   src={srcPath}
-                   tabIndex="0"
-                   aria-label={tags}>
-              </img>
-         </div>
-       )
-     })
-     this.setState({pictures: picArray});
-
-   }.bind(this)).catch((error) => {
-     this.setState({ error: true})
-   })
-
-
-//     this.props.givePlace(this.state.places);
+     this.getFlickrImg();
+    //alert(this.state.pictures)
      this.initMap();
      //this.loadJS("https://maps.googleapis.com/maps/api/js?key=AIzaSyAjfYACbqoCeUt-I01rTaQKGEgmMIYCtDs&callback=initMap");
      let {markers} = this.state;
      this.setState({ markers : markers });
-
+     //.then(this.getMarkers());
 
      window.gm_authFailure = () => {
 			alert("Ups error.. there is problem with loading map. Please check your API key.")
 		}
-
-
-
   };
      //let { markers} = this.state;
 
 
+     getFlickrImg = () => {
 
+       let tags = "Warszawa";
+       fetch("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key="+process.env.REACT_APP_API_KEY+"&tags="+tags+"&per_page=1&page=1&format=json&nojsoncallback=1")
+       .then(function(response){
+       return response.json();
+       })
+       .then(function(j){
+
+       let picArray = j.photos.photo.map((pic) => {
+
+         var srcPath = 'https://farm'+pic.farm+'.staticflickr.com/'+pic.server+'/'+pic.id+'_'+pic.secret+'.jpg';
+         return(
+           srcPath
+         )
+       })
+
+       this.setState({pictures: picArray});
+
+       }.bind(this)).catch((error) => {
+       this.setState({ error: true});
+       alert(" Ups something wrong with loading image, please check your connection and reload the page")
+
+     })
+     }
 
      // method which match list with marker.
 
@@ -115,8 +110,8 @@ class Map extends React.Component {
       filteredPlaces.splice(0,filteredPlaces.length);
 
        if (query) {
-              for (var i = 0; i < places.length; i++) {
-                if (places[i].name.toLowerCase().includes(query.toLowerCase())) {
+            for (var i = 0; i < places.length; i++) {
+              if (places[i].name.toLowerCase().includes(query.toLowerCase())) {
                   markers[i].setVisible(true)
                   filteredPlaces.push(places[i]);
                 }
@@ -128,7 +123,7 @@ class Map extends React.Component {
                 }
               }
             }
-        else {
+          else {
             for (var i = 0; i < places.length; i++) {
                   markers[i].setVisible(true);
                   filteredPlaces = places;
@@ -136,7 +131,7 @@ class Map extends React.Component {
             }
 
         this.setState({infowindows: infowindows})
-        return this.setState({filteredPlaces: filteredPlaces, infowindows: infowindows})
+        return this.setState({filteredPlaces: filteredPlaces})
       }
 
       // method to load map
@@ -151,19 +146,17 @@ class Map extends React.Component {
       this.setState({filteredPlaces: filteredPlaces})
 
       map = new maps.Map(document.getElementById("map"), {
-           center:{
+          center:{
             lat: 51.107883,
             lng: 17.038538
            },
-           zoom: 7,
+           zoom: 7
         });
-        //this.setState({map:map});
+        this.setState({map:map});
 
       let bounds = new window.google.maps.LatLngBounds();
       let {infowindows} = this.state;
     //  let infowindowOpenId = "";
-
-     // https://stackoverflow.com/questions/24884197/declaring-google-map-markers-in-a-loop
 
       for (var i = 0; i < places.length; i++){
 
@@ -181,53 +174,52 @@ class Map extends React.Component {
            title: name,
          });
 
-        markers.push(marker);
-
-        marker.index = i; //add index property
-
-      // infowindow content = name of the city
-
-      //contents[i] = (`<div>${marker.title}</div>`);
-
-      // loop to set marker infowindow, animation for markers.
-
-      google.maps.event.addListener(marker, "click", function() {
-
-      // set marker to bounce 2 times after click
-
-        marker.setAnimation(google.maps.Animation.BOUNCE);
-
-        setTimeout(function() {
-           marker.setAnimation(null);
-           }, 1000);
-
-          if (infowindows.marker === this.marker){
-              infowindows.open(map, marker);
-              infowindows.setContent(`<div>${marker.title}</div>`);
-              map.panTo(markers[this.index].getPosition());
-              //infowindowOpenId = this.state.places[i].id;
-
-      // after clicking on other marker infowindow will close
-
-            } else {
-                if (infowindows.marker === markers[i]){
-                    infowindows.close();
-                }
-              }
-           });
-
+          marker.index = i; //add index property
+          markers.push(marker);
           bounds.extend(marker.position);
           map.fitBounds(bounds);
          }
-
           this.setState({markers: markers});
           this.setState({infowindows: infowindows})
 
-          //this.setState({ map: map });
+        //  this.setState({ map: map });
+
           //this.props.giveMarkersToParent(markers);
        }
 
-// https://www.klaasnotfound.com/2016/11/06/making-google-maps-work-with-react/
+       getMarkers = () => {
+         let {map, pictures, markers, infowindows} = this.state;
+         let {google} = this.props;
+
+        markers.forEach((marker, i) => {
+
+         google.maps.event.addListener(marker, "click", function() {
+
+         marker.setAnimation(google.maps.Animation.BOUNCE);
+
+         setTimeout(function() {
+            marker.setAnimation(null);
+            }, 1000);
+
+           if (infowindows.marker === this.marker){
+             infowindows.open(map, marker);
+             infowindows.setContent(`<div><img src=${pictures[0]}></img></div>`|| `<div>${marker.title}</div>`);
+
+
+            map.panTo(markers[this.index].getPosition());
+
+       // after clicking on other marker infowindow will close
+
+             } else {
+                 if (infowindows.marker === markers[i]){
+                     infowindows.close();
+                 }
+               }
+            });
+          });
+
+}
+
 
    loadJS = (src) => {
   		const ref = window.document.getElementsByTagName("script")[0];
@@ -239,12 +231,17 @@ class Map extends React.Component {
   		script.onerror = this.setState({ mapError: true });
    };
 
-
-
+/*   getPictures = () => {
+     let pics = this.state.pictures;
+     this.setState({pictures: pics});
+     console.log("pics")
+     alert(pics[0])
+   }*/
 
 
    render() {
 
+this.getMarkers();
 
      return (
        <main>
@@ -268,7 +265,8 @@ class Map extends React.Component {
              markers = {this.state.markres}
              places = {this.state.places}
              pictures={this.state.pictures}/>
-             </div>
+         </div>
+
         </main>
         )
        }

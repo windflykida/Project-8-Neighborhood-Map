@@ -13,40 +13,45 @@ import Footer from "./Footer";
 
    this.state = {
     menuVisibility: false,
+    pictures:[]
    }
 
    this.handleMouseDown = this.handleMouseDown.bind(this);
    this.toggleMenu = this.toggleMenu.bind(this);
+
    }
 
-// function open and close sidebar
+  // function open and close sidebar
 
-handleMouseDown = (event) => {
-  this.toggleMenu();
-  event.stopPropagation();
-}
 
-// method responsible for toggling whether visible is true or false.
+  handleMouseDown = (event) => {
+    this.toggleMenu();
+    event.stopPropagation();
+  }
 
-toggleMenu = () => {
-  this.setState({
-    menuVisibility: !this.state.menuVisibility
-  });
-}
+  // method responsible for toggling whether visible is true or false.
+
+  toggleMenu = () => {
+    this.setState({
+      menuVisibility: !this.state.menuVisibility
+    });
+  }
 
   render () {
 
-     //let {allMarkersFromChild, query} = this.state;
-
-
     return (
       <div>
+
         <Map
             google ={this.props.google}
             menuVisibility={this.state.menuVisibility}
-            toggleMenu={this.toggleMenu}/>
+            toggleMenu={this.toggleMenu}
+
+        />
+
         <Header
-            handleMouseDown={this.handleMouseDown}/>
+            handleMouseDown={this.handleMouseDown}
+        />
 
         <Footer/>
 
