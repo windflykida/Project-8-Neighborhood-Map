@@ -203,7 +203,7 @@ class Map extends React.Component {
 
            if (infowindows.marker === this.marker){
              infowindows.open(map, marker);
-             infowindows.setContent(`<div><img src=${pictures[0]}></img></div>`|| `<div>${marker.title}</div>`);
+             infowindows.setContent(`<div>${marker.title}<br><img src=${pictures[0]}></img></div>`);
 
 
             map.panTo(markers[this.index].getPosition());
