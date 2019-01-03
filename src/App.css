@@ -159,8 +159,8 @@
      }
 
     .gallery-image {
-    	height: 100px;
-    	width: 120px;
+    	height: 150px;
+    	width: 180px;
       margin:2px;
       object-fit: cover;
     }

@@ -35,8 +35,7 @@ class Map extends React.Component {
         filteredPlaces:[],
         markerVisible:[],
         pictures:[""],
-        pictures_tmp:[],
-        error: false,
+        flickrError: false,
         map:{}
       };
 
@@ -45,9 +44,7 @@ class Map extends React.Component {
       }
 
    componentDidMount(){
-
      this.getFlickrImg();
-    //alert(this.state.pictures)
      this.initMap();
      //this.loadJS("https://maps.googleapis.com/maps/api/js?key=AIzaSyAjfYACbqoCeUt-I01rTaQKGEgmMIYCtDs&callback=initMap");
      let {markers} = this.state;
@@ -66,7 +63,7 @@ class Map extends React.Component {
        let tags = "Warszawa";
        fetch("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key="+process.env.REACT_APP_API_KEY+"&tags="+tags+"&per_page=1&page=1&format=json&nojsoncallback=1")
        .then(function(response){
-       return response.json();
+         return response.json();
        })
        .then(function(j){
 
@@ -81,8 +78,8 @@ class Map extends React.Component {
        this.setState({pictures: picArray});
 
        }.bind(this)).catch((error) => {
-       this.setState({ error: true});
-       alert(" Ups something wrong with loading image, please check your connection and reload the page")
+       this.setState({ flickrError: true});
+       alert(" Oops! Something wrong with loading image, please check your connection and reload the page")
 
      })
      }
@@ -98,7 +95,9 @@ class Map extends React.Component {
            this.props.toggleMenu();
            window.google.maps.event.trigger(marker, "click");
         }
+        return(0);
       })
+      return(0);
      }
 
      // method to filter and display places
@@ -124,7 +123,7 @@ class Map extends React.Component {
               }
             }
           else {
-            for (var i = 0; i < places.length; i++) {
+            for (i = 0; i < places.length; i++) {
                   markers[i].setVisible(true);
                   filteredPlaces = places;
               }
@@ -188,7 +187,7 @@ class Map extends React.Component {
        }
 
        getMarkers = () => {
-         let {map, pictures, markers, infowindows} = this.state;
+         let {map, pictures, markers, infowindows, flickrError} = this.state;
          let {google} = this.props;
 
         markers.forEach((marker, i) => {
@@ -203,7 +202,12 @@ class Map extends React.Component {
 
            if (infowindows.marker === this.marker){
              infowindows.open(map, marker);
-             infowindows.setContent(`<div>${marker.title}<br><img src=${pictures[0]}></img></div>`);
+             if (!flickrError) {
+              infowindows.setContent(`<div>${marker.title}<br><img class="gallery-image" src=${pictures[0]}></img></div>`);
+            }
+            else {
+              infowindows.setContent(`<div>${marker.title}<br><strong>Oops! Something wrong with loading image, please check your connection and reload the page</strong></div>`);
+            }
 
 
             map.panTo(markers[this.index].getPosition());
